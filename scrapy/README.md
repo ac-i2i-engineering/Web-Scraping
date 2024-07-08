@@ -34,6 +34,10 @@ To run the scrapper, navigate to the appropriate directory in the terminal/shell
 scrapy crawl products -o products.json
 ```
 
+## Respecting the websites' rules
+
+Scrapy has built-in support for respecting robots.txt files. By default, Scrapy respects the robots.txt rules of the websites it scrapes. 
+
 You can see more advanced examples and functions using scrapy on its official documentation page: https://docs.scrapy.org/en/latest/
 
 
