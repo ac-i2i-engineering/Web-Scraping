@@ -22,5 +22,17 @@ In this example the the code first sends a request to the specified URL and stor
 
 Apart from chaing the url variable to the website that we want to scrap, we can adjust the selector in soup.find_all to match the HTML structure of the data you want to scrape. You can inspect the HTML structure using browser developer tools.
 
+## Respecting websites' rules
+
+Websites have a file called 'robots.txt' which lay out the rules for the website, and it is crucial to adhere to them so that legal and ethical boundaries are not breached. When using BeautifulSoap it is important to take extra care of this as the library itself does not ensure this be default. 
+
+To implement a safe algorithm first do more installation:
+
+```
+pip install requests robotexclusionrulesparser
+```
+
+The 'is_allowed' function in the example shows how the code checks the website's robots.txt and essentially ensures that it has permission to scrap the website. The rest of the code is in an if statement and will only be executed if permission is granted.
+
 For more advanced use cases, you can find documentation for BeautifulSoup here: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
