@@ -18,5 +18,9 @@ pip install requests beautifulsoup4
 
 In this example the the code first sends a request to the specified URL and stores the response. Ensures the request was successful before attempting to parse the content. It then parses the HTML content of the page using BeautifulSoup. To do so, it finds all h2 tags with the class article-title, and adjusts this selector based on the actual HTML structure of the target website.
 
+## Customization
+
+Apart from chaing the url variable to the website that we want to scrap, we can adjust the selector in soup.find_all to match the HTML structure of the data you want to scrape. You can inspect the HTML structure using browser developer tools.
+
 For more advanced use cases, you can find documentation for BeautifulSoup here: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
