@@ -11,7 +11,6 @@ This example scrapes stock data from Yahoo Finance and saves it to a CSV file. I
 
 ## Prerequisites
 
-- Python 3.x
 - Required Python libraries: `requests`, `beautifulsoup4`, `pandas`, `schedule`
 
 ## Installation
