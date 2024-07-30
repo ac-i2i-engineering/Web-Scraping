@@ -4,7 +4,7 @@ import subprocess
 from config import SCHEDULE_TIME
 
 def job():
-    subprocess.run(['python', 'scrape_data.py'])
+    subprocess.run(['python', '../manage.py','scrape_data.py'])
 
 # Schedule the job
 schedule.every().day.at(SCHEDULE_TIME).do(job)

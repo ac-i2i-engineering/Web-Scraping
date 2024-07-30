@@ -1,9 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from config import TICKERS, CSV_FILENAME
-
+from .config import TICKERS, CSV_FILENAME
 def get_stock_data(ticker):
+    from .models import Stock
+    
     url = f'https://finance.yahoo.com/quote/{ticker}'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -13,6 +14,12 @@ def get_stock_data(ticker):
     data['price'] = soup.find('fin-streamer', {'data-field': 'regularMarketPrice'}).text
     data['change'] = soup.find('fin-streamer', {'data-field': 'regularMarketChangePercent'}).text
     data['volume'] = soup.find('td', {'data-test': 'TD_VOLUME-value'}).find('span').text
+    
+    # Save data to Django model
+    stock, created = Stock.objects.get_or_create(ticker_symbol=data['ticker_symbol'])
+    stock.current_price = data['current_price']
+    stock.volume = data['volume']
+    stock.save()
 
     return data
 
