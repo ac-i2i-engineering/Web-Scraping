@@ -40,6 +40,11 @@ def get_stock_data(ticker):
     else:
         data['volume'] = None
     
+    print(ticker)
+    print(data['price'])
+    print(data['volume'])
+    print(data['change'])
+    
     # Save data to Django model
     stock, created = Stock.objects.get_or_create(ticker_symbol=data['ticker'])
     stock.current_price = data['price']
