@@ -3,7 +3,7 @@ from django.db import models
 class Stock(models.Model):
     ticker_symbol = models.CharField(max_length=10, unique=True)
     company_name = models.CharField(max_length=255)
-    current_price = models.DecimalField(max_digits=10, decimal_places=2)
+    current_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     previous_close_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     high_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     low_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

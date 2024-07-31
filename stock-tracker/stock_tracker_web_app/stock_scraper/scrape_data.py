@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from .config import TICKERS, CSV_FILENAME
+from decimal import Decimal
+
 def get_stock_data(ticker):
     from .models import Stock
     
@@ -11,13 +13,36 @@ def get_stock_data(ticker):
 
     data = {}
     data['ticker'] = ticker
-    data['price'] = soup.find('fin-streamer', {'data-field': 'regularMarketPrice'}).text
-    data['change'] = soup.find('fin-streamer', {'data-field': 'regularMarketChangePercent'}).text
-    data['volume'] = soup.find('td', {'data-test': 'TD_VOLUME-value'}).find('span').text
+    
+    # Handle possible None types gracefully
+    price_element = soup.find('fin-streamer', {'data-field': 'regularMarketPrice'})
+    change_element = soup.find('fin-streamer', {'data-field': 'regularMarketChangePercent'})
+    volume_element = soup.find('td', {'data-test': 'TD_VOLUME-value'})
+    
+    if price_element:
+        price_text = price_element.text.replace(',', '')
+        data['price'] = Decimal(price_text)
+    else:
+        data['price'] = None
+    
+    if change_element:
+        data['change'] = change_element.text
+    else:
+        data['change'] = None
+    
+    if volume_element:
+        volume_span = volume_element.find('span')
+        if volume_span:
+            volume_text = volume_span.text.replace(',', '')
+            data['volume'] = int(volume_text)
+        else:
+            data['volume'] = None
+    else:
+        data['volume'] = None
     
     # Save data to Django model
-    stock, created = Stock.objects.get_or_create(ticker_symbol=data['ticker_symbol'])
-    stock.current_price = data['current_price']
+    stock, created = Stock.objects.get_or_create(ticker_symbol=data['ticker'])
+    stock.current_price = data['price']
     stock.volume = data['volume']
     stock.save()
 
