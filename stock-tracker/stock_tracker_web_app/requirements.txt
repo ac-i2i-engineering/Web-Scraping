@@ -155,6 +155,7 @@ pylev==1.2.0
 pyparsing==2.4.7
 python-apt==2.4.0+ubuntu3
 python-dateutil==2.9.0.post0
+python-decouple==3.8
 python-json-logger==2.0.7
 pytz==2024.1
 PyYAML==5.4.1

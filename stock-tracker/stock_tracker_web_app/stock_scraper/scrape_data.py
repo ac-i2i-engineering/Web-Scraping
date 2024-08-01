@@ -1,12 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from decimal import Decimal, InvalidOperation
 from .config import TICKERS, CSV_FILENAME
-from decimal import Decimal
 
 def get_stock_data(ticker):
-    from .models import Stock
-    
+    from .models import Stock  # Move import here
     url = f'https://finance.yahoo.com/quote/{ticker}'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -21,12 +20,19 @@ def get_stock_data(ticker):
     
     if price_element:
         price_text = price_element.text.replace(',', '')
-        data['price'] = Decimal(price_text)
+        try:
+            data['price'] = Decimal(price_text)
+        except InvalidOperation:
+            data['price'] = None
     else:
         data['price'] = None
     
     if change_element:
-        data['change'] = change_element.text
+        change_text = change_element.text.replace('%', '').replace(',', '')
+        try:
+            data['change'] = Decimal(change_text)
+        except InvalidOperation:
+            data['change'] = None
     else:
         data['change'] = None
     
@@ -34,7 +40,10 @@ def get_stock_data(ticker):
         volume_span = volume_element.find('span')
         if volume_span:
             volume_text = volume_span.text.replace(',', '')
-            data['volume'] = int(volume_text)
+            try:
+                data['volume'] = int(volume_text)
+            except ValueError:
+                data['volume'] = None
         else:
             data['volume'] = None
     else:
@@ -49,6 +58,7 @@ def get_stock_data(ticker):
     stock, created = Stock.objects.get_or_create(ticker_symbol=data['ticker'])
     stock.current_price = data['price']
     stock.volume = data['volume']
+    stock.change = data['change']
     stock.save()
 
     return data
