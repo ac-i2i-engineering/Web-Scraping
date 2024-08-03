@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Stock, Subscriber
+from .models import Stock
 
 def index(request):
     stocks = Stock.objects.all()
@@ -8,15 +8,3 @@ def index(request):
         'stocks': stocks,
     }
     return render(request, 'stock_scraper/index.html', context)
-
-def subscribe(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        if email:
-            if Subscriber.objects.filter(email=email).exists():
-                messages.error(request, 'This email is already subscribed.')
-            else:
-                Subscriber.objects.create(email=email)
-                messages.success(request, 'Thank you for subscribing!')
-        return redirect('index')
-    return redirect('index')

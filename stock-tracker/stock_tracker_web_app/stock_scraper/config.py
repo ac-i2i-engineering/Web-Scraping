@@ -4,7 +4,7 @@ TICKERS = [
     'MSFT',  # Microsoft Corporation
     'AMZN',  # Amazon.com Inc.
     'TSLA',  # Tesla Inc.
-    'FB',    # Meta Platforms Inc. (formerly Facebook)
+    'META',    # Meta Platforms Inc. (formerly Facebook)
     'NFLX',  # Netflix Inc.
     'NVDA',  # NVIDIA Corporation
     'BRK-A', # Berkshire Hathaway Inc.
