@@ -46,6 +46,21 @@
         tr:hover {
             background-color: #e0e0e0; /* Light grey on hover */
         }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .input-field {
+            background-color: #5bc0de; /* Lighter blue */
+            color: #000000;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex: 1;
+        }
         .button {
             background-color: #d9534f; /* Red */
             color: white;
@@ -54,24 +69,32 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 10px 2px;
             cursor: pointer;
             border: none;
             border-radius: 5px;
-        }
-        .input-field {
-            background-color: #5bc0de; /* Lighter blue */
-            color: #000000;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin: 10px 0;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
     <h1>Stock Price Tracker (Updated Every 30 Minutes)</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="form-container">
+        <form method="post" action="{% url 'subscribe' %}">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Enter your email" class="input-field" required>
+            <button type="submit" class="button">Subscribe</button>
+        </form>
+    </div>
 
     <table>
         <thead>

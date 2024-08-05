@@ -21,7 +21,7 @@ from celery.schedules import crontab
 app.conf.beat_schedule = {
     'scrape-every-30-minutes': {
         'task': 'stock_scraper.tasks.scrape_stock_data',
-        'schedule': crontab(minute='*/30'),
+        'schedule': crontab(minute='*/1'),
     },
 }
 

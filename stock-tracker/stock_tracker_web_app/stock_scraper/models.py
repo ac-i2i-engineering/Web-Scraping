@@ -16,3 +16,9 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"{self.company_name} ({self.ticker_symbol})"
+    
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
